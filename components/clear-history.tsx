@@ -21,7 +21,7 @@ import { IconSpinner } from '@/components/ui/icons'
 
 interface ClearHistoryProps {
   isEnabled: boolean
-  clearChats: () => ServerActionResult<void>
+  clearChats: () => Promise<ServerActionResult<void>>
 }
 
 export function ClearHistory({

@@ -3,9 +3,10 @@
 import { signIn } from '@/auth'
 import { ResultCode, getStringFromBuffer } from '@/lib/utils'
 import { z } from 'zod'
-import { kv } from '@vercel/kv'
 import { getUser } from '../login/actions'
 import { AuthError } from 'next-auth'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient();
 
 export async function createUser(
   email: string,
@@ -21,18 +22,27 @@ export async function createUser(
     }
   } else {
     const user = {
-      id: crypto.randomUUID(),
       email,
       password: hashedPassword,
       salt
     }
-
-    await kv.hmset(`user:${email}`, user)
-
+    try{
+    await prisma.user.create({data:user})
     return {
       type: 'success',
       resultCode: ResultCode.UserCreated
     }
+
+    }catch(err) {
+      return {
+        type: 'error',
+        resultCode: ResultCode.UnknownError
+      }
+
+    }finally{
+      await prisma.$disconnect();
+    }
+
   }
 }
 
@@ -60,7 +70,6 @@ export async function signup(
 
   if (parsedCredentials.success) {
     const salt = crypto.randomUUID()
-
     const encoder = new TextEncoder()
     const saltedPassword = encoder.encode(password + salt)
     const hashedPasswordBuffer = await crypto.subtle.digest(

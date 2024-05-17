@@ -2,45 +2,90 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { kv } from '@vercel/kv'
-
+import { Prisma, PrismaClient } from "@prisma/client";
 import { auth } from '@/auth'
-import { type Chat } from '@/lib/types'
+import { ServerActionResult, type Chat } from '@/lib/types'
+import { idea } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { Message } from 'ai';
 
-export async function getChats(userId?: string | null) {
+
+
+const prisma = new PrismaClient();
+
+
+export async function getChats(userId?: string | null):Promise<Chat[] | []> {
   if (!userId) {
     return []
   }
+    try {
+      const chats = await prisma.chat.findMany({
+        where:{
+          userId: userId 
+        }
+      })
+      if(!chats){
+        return []
+      }
 
-  try {
-    const pipeline = kv.pipeline()
-    const chats: string[] = await kv.zrange(`user:chat:${userId}`, 0, -1, {
-      rev: true
-    })
+      return chats as Chat[]
 
-    for (const chat of chats) {
-      pipeline.hgetall(chat)
+    } catch (err) {
+      console.error("error executing query:", err);
+      return []
+    } finally {
+      prisma.$disconnect();
     }
 
-    const results = await pipeline.exec()
-
-    return results as Chat[]
-  } catch (error) {
-    return []
-  }
 }
 
-export async function getChat(id: string, userId: string) {
-  const chat = await kv.hgetall<Chat>(`chat:${id}`)
+export async function getChat(id: string, userId: string):Promise<Chat | undefined> {
+    try {
+      const chat = await prisma.chat.findUnique({
+        where:{
+          id 
+        }
+      })
+      if (!chat || (userId && chat.userId !== userId)) {
+        return 
+      }
+       return chat as Chat
 
-  if (!chat || (userId && chat.userId !== userId)) {
-    return null
+
+    } catch (err) {
+      console.error("error executing query:", err);
+      return
+    } finally {
+      prisma.$disconnect();
+    }
+
+
+}
+export async function getMessages(chatId:string){
+  try {
+    const messages = await prisma.message.findMany({
+      where:{
+        chatId:chatId
+      }
+    })
+
+    if (!messages) {
+      return []
+    }
+     return messages
+
+
+  } catch (err) {
+    console.error("error executing query:", err);
+    return
+  } finally {
+    prisma.$disconnect();
   }
 
-  return chat
+
 }
 
-export async function removeChat({ id, path }: { id: string; path: string }) {
+
+export async function removeChat({ id, path }: { id: string; path: string }):Promise<ServerActionResult<void>> {
   const session = await auth()
 
   if (!session) {
@@ -49,96 +94,202 @@ export async function removeChat({ id, path }: { id: string; path: string }) {
     }
   }
 
-  //Convert uid to string for consistent comparison with session.user.id
-  const uid = String(await kv.hget(`chat:${id}`, 'userId'))
+    try {
+      const chat = await prisma.chat.findUnique({
+        where:{
+          id 
+        }
+      })
+      if(!chat){
+        return {
+          error: 'Chat not found'
+        }
+      }
 
-  if (uid !== session?.user?.id) {
-    return {
-      error: 'Unauthorized'
+      const uid = chat.userId
+      if (uid !== session?.user?.id) {
+        return {
+          error: 'Unauthorized'
+        }
+      }
+     const deletedChat =  await prisma.chat.delete({
+        where:{
+          id,
+        }
+      })
+      revalidatePath('/')
+
+
+    } catch (err) {
+      console.error("error executing query:", err);
+    } finally {
+      prisma.$disconnect();
     }
-  }
 
-  await kv.del(`chat:${id}`)
-  await kv.zrem(`user:chat:${session.user.id}`, `chat:${id}`)
-
-  revalidatePath('/')
-  return revalidatePath(path)
 }
 
-export async function clearChats() {
+export async function clearChats():Promise<ServerActionResult<void>> {
   const session = await auth()
-
-  if (!session?.user?.id) {
+  if (!session) {
     return {
       error: 'Unauthorized'
     }
   }
+    try {
+      const chats = await getChats(session.user?.id)
+      
+      if (!chats || !chats.length) {
+        return redirect('/')
+      }
+      
+        await prisma.chat.deleteMany({where:{
+          userId:session!.user!.id
+        }})
 
-  const chats: string[] = await kv.zrange(`user:chat:${session.user.id}`, 0, -1)
-  if (!chats.length) {
-    return redirect('/')
-  }
-  const pipeline = kv.pipeline()
+    } catch (err) {
+      console.error("error executing query:", err);
+     return {
+        error: String(err)
+      }
+    } finally {
+      prisma.$disconnect();
+    }
+  
 
-  for (const chat of chats) {
-    pipeline.del(chat)
-    pipeline.zrem(`user:chat:${session.user.id}`, chat)
-  }
-
-  await pipeline.exec()
 
   revalidatePath('/')
   return redirect('/')
 }
 
-export async function getSharedChat(id: string) {
-  const chat = await kv.hgetall<Chat>(`chat:${id}`)
+export async function getSharedChat(id: string):Promise<Chat | undefined> {
+    try {
+      const chat = await prisma.chat.findUnique({
+        where:{
+          id 
+        }
+      })
+      if (!chat || !chat.sharePath) {
+        return
+      }
+       return chat as Chat
 
-  if (!chat || !chat.sharePath) {
-    return null
-  }
 
-  return chat
+    } catch (err) {
+      console.error("error executing query:", err);
+      return 
+    } finally {
+      prisma.$disconnect();
+    }
+ 
 }
 
-export async function shareChat(id: string) {
+export async function shareChat(id: string):Promise<ServerActionResult<Chat>> {
+    try {
   const session = await auth()
 
-  if (!session?.user?.id) {
-    return {
-      error: 'Unauthorized'
+      if (!session?.user?.id) {
+        return {
+          error: 'Unauthorized'
+        }
+      }
+      const chat = await prisma.chat.findUnique({
+        where:{
+          id 
+        }
+      })
+      if (!chat || chat.userId !== session.user.id) {
+        return {
+          error: 'Something went wrong'
+        }
+      }
+      const payload = {
+        ...chat,
+        sharePath: `/share/${chat.id}`
+      }
+       const newChat = await prisma.chat.update({
+        where:{
+        id:chat.id
+      },
+    data:payload})
+
+      return newChat as Chat
+
+
+    } catch (err) {
+      console.error("error executing query:", err);
+      return {
+        error: 'Unauthorized'
+      }
+    } finally {
+      prisma.$disconnect();
     }
-  }
 
-  const chat = await kv.hgetall<Chat>(`chat:${id}`)
 
-  if (!chat || chat.userId !== session.user.id) {
-    return {
-      error: 'Something went wrong'
-    }
-  }
 
-  const payload = {
-    ...chat,
-    sharePath: `/share/${chat.id}`
-  }
+  
 
-  await kv.hmset(`chat:${chat.id}`, payload)
+  
 
-  return payload
+  
 }
 
+//falta corrigir
 export async function saveChat(chat: Chat) {
   const session = await auth()
+  if (session && session.user && session.user.id) {
+      try {
+        const newMessages = chat.messages.map(message=>{
+          return {
+            role:String(message.role), 
+            content:message.content,
+            name: message.name as string
+          }
+        })
+          // Check if the chat already exists for the user
+      const existingChat = await prisma.chat.findFirst({
+        where: {
+          AND: [
+            { id: chat.id },
+            { userId: session.user.id },
+          ],
+        },
+      });
 
-  if (session && session.user) {
-    const pipeline = kv.pipeline()
-    pipeline.hmset(`chat:${chat.id}`, chat)
-    pipeline.zadd(`user:chat:${chat.userId}`, {
-      score: Date.now(),
-      member: `chat:${chat.id}`
-    })
-    await pipeline.exec()
+        if(existingChat){
+          await prisma.message.updateMany({
+            where:{
+              chatId:existingChat.id
+            },
+            data:newMessages
+          })
+          
+      }else{
+          const createdChat = await prisma.chat.create({data:{
+            userId:session.user.id,
+            title:chat.title,
+            messages:{create:newMessages}
+          }
+          })
+          const path = `/chat/${createdChat.id}`
+
+          const chatUpdated = await prisma.chat.update({where:{id:createdChat.id,
+            userId:session.user.id
+          },
+          data:{
+              path,  
+          }})
+        }
+        
+
+  
+      } catch (err) {
+        console.error("error executing query:", err);
+        return []
+      } finally {
+        prisma.$disconnect();
+      }
+
+  
   } else {
     return
   }
@@ -154,3 +305,5 @@ export async function getMissingKeys() {
     .map(key => (process.env[key] ? '' : key))
     .filter(key => key !== '')
 }
+
+

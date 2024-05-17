@@ -23,11 +23,12 @@ import {
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip'
+import { Message } from 'ai'
 
 interface SidebarActionsProps {
   chat: Chat
-  removeChat: (args: { id: string; path: string }) => ServerActionResult<void>
-  shareChat: (id: string) => ServerActionResult<Chat>
+  removeChat: (args: { id: string; path: string }) => Promise<ServerActionResult<void>>
+  shareChat: (id: string) => Promise<ServerActionResult<Chat>>,
 }
 
 export function SidebarActions({

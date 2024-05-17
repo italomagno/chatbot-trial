@@ -5,8 +5,17 @@ import { twMerge } from 'tailwind-merge'
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+//@ts-ignore
+import { v4 as uuidv4 } from 'uuid';
 
-export const nanoid = customAlphabet(
+// Generate a UUID
+//const newUUID = uuidv4();
+const  uuid = crypto.randomUUID();
+export const nanoid = uuid
+
+
+//before
+customAlphabet(
   '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
   7
 ) // 7-character random string

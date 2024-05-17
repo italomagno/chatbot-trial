@@ -23,7 +23,7 @@ import { z } from 'zod'
 import { EventsSkeleton } from '@/components/stocks/events-skeleton'
 import { Events } from '@/components/stocks/events'
 import { StocksSkeleton } from '@/components/stocks/stocks-skeleton'
-import { Stocks } from '@/components/stocks/stocks'
+import { Stocks } from '@/components/stocks/stocks' 
 import { StockSkeleton } from '@/components/stocks/stock-skeleton'
 import {
   formatNumber,
@@ -87,7 +87,7 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
       messages: [
         ...aiState.get().messages.slice(0, -1),
         {
-          id: nanoid(),
+          id: nanoid,
           role: 'function',
           name: 'showStockPurchase',
           content: JSON.stringify({
@@ -98,7 +98,7 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
           })
         },
         {
-          id: nanoid(),
+          id: nanoid,
           role: 'system',
           content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${
             amount * price
@@ -111,7 +111,7 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
   return {
     purchasingUI: purchasing.value,
     newMessage: {
-      id: nanoid(),
+      id: nanoid,
       display: systemMessage.value
     }
   }
@@ -127,7 +127,7 @@ async function submitUserMessage(content: string) {
     messages: [
       ...aiState.get().messages,
       {
-        id: nanoid(),
+        id: nanoid,
         role: 'user',
         content
       }
@@ -175,7 +175,7 @@ async function submitUserMessage(content: string) {
           messages: [
             ...aiState.get().messages,
             {
-              id: nanoid(),
+              id: nanoid,
               role: 'assistant',
               content
             }
@@ -213,7 +213,7 @@ async function submitUserMessage(content: string) {
             messages: [
               ...aiState.get().messages,
               {
-                id: nanoid(),
+                id: nanoid,
                 role: 'function',
                 name: 'listStocks',
                 content: JSON.stringify(stocks)
@@ -254,7 +254,7 @@ async function submitUserMessage(content: string) {
             messages: [
               ...aiState.get().messages,
               {
-                id: nanoid(),
+                id: nanoid,
                 role: 'function',
                 name: 'showStockPrice',
                 content: JSON.stringify({ symbol, price, delta })
@@ -292,7 +292,7 @@ async function submitUserMessage(content: string) {
               messages: [
                 ...aiState.get().messages,
                 {
-                  id: nanoid(),
+                  id: nanoid,
                   role: 'system',
                   content: `[User has selected an invalid amount]`
                 }
@@ -307,7 +307,7 @@ async function submitUserMessage(content: string) {
             messages: [
               ...aiState.get().messages,
               {
-                id: nanoid(),
+                id: nanoid,
                 role: 'function',
                 name: 'showStockPurchase',
                 content: JSON.stringify({
@@ -361,7 +361,7 @@ async function submitUserMessage(content: string) {
             messages: [
               ...aiState.get().messages,
               {
-                id: nanoid(),
+                id: nanoid,
                 role: 'function',
                 name: 'getEvents',
                 content: JSON.stringify(events)
@@ -380,7 +380,7 @@ async function submitUserMessage(content: string) {
   })
 
   return {
-    id: nanoid(),
+    id: nanoid,
     display: result.value
   }
 }
@@ -408,7 +408,7 @@ export const AI = createAI<AIState, UIState>({
     confirmPurchase
   },
   initialUIState: [],
-  initialAIState: { chatId: nanoid(), messages: [] },
+  initialAIState: { chatId: nanoid, messages: [] },
   onGetUIState: async () => {
     'use server'
 
@@ -434,10 +434,9 @@ export const AI = createAI<AIState, UIState>({
       const { chatId, messages } = state
 
       const createdAt = new Date()
-      const userId = session.user.id as string
       const path = `/chat/${chatId}`
+      const userId = session.user.id as string
       const title = messages[0].content.substring(0, 100)
-
       const chat: Chat = {
         id: chatId,
         title,
@@ -446,8 +445,8 @@ export const AI = createAI<AIState, UIState>({
         messages,
         path
       }
-
       await saveChat(chat)
+      return
     } else {
       return
     }

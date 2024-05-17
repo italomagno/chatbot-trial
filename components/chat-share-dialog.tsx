@@ -16,11 +16,14 @@ import {
 } from '@/components/ui/dialog'
 import { IconSpinner } from '@/components/ui/icons'
 import { useCopyToClipboard } from '@/lib/hooks/use-copy-to-clipboard'
+import { Message } from 'ai'
+import { getMessages } from '@/app/actions'
+import { useState } from 'react'
 
 interface ChatShareDialogProps extends DialogProps {
   chat: Pick<Chat, 'id' | 'title' | 'messages'>
-  shareChat: (id: string) => ServerActionResult<Chat>
-  onCopy: () => void
+  shareChat: (id: string) => Promise<ServerActionResult<Chat>>
+  onCopy: () => void,
 }
 
 export function ChatShareDialog({
@@ -31,6 +34,15 @@ export function ChatShareDialog({
 }: ChatShareDialogProps) {
   const { copyToClipboard } = useCopyToClipboard({ timeout: 1000 })
   const [isSharePending, startShareTransition] = React.useTransition()
+  const [messages,setMessages] = useState(async ()=>{
+    const messages = await getMessages(chat.id)
+    if(messages){
+      return messages
+    }else{
+      return []
+    }
+
+  })
 
   const copyShareLink = React.useCallback(
     async (chat: Chat) => {
@@ -46,6 +58,8 @@ export function ChatShareDialog({
     },
     [copyToClipboard, onCopy]
   )
+  
+
 
   return (
     <Dialog {...props}>
@@ -59,7 +73,11 @@ export function ChatShareDialog({
         <div className="p-4 space-y-1 text-sm border rounded-md">
           <div className="font-medium">{chat.title}</div>
           <div className="text-muted-foreground">
-            {chat.messages.length} messages
+
+            {
+              //@ts-ignore
+            (messages).length
+            } messages
           </div>
         </div>
         <DialogFooter className="items-center">

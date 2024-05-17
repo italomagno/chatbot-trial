@@ -4,12 +4,22 @@ import { signIn } from '@/auth'
 import { User } from '@/lib/types'
 import { AuthError } from 'next-auth'
 import { z } from 'zod'
-import { kv } from '@vercel/kv'
 import { ResultCode } from '@/lib/utils'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient();
+
 
 export async function getUser(email: string) {
-  const user = await kv.hgetall<User>(`user:${email}`)
-  return user
+  try{
+    const user = await prisma.user.findFirst({where:{email: email}})
+    return user
+  }catch(err){
+
+  }finally{
+    prisma.$disconnect();
+
+  }
+ 
 }
 
 interface Result {
