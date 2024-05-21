@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -65,7 +66,7 @@
     --ring: 240 4.9% 83.9%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
@@ -74,3 +75,5 @@
     @apply bg-background text-foreground;
   }
 }
+body { position: "static"; top: "0px !important"; }
+iframe.skiptranslate { display: "none !important"; }

@@ -60,6 +60,7 @@ export async function getChat(id: string, userId: string):Promise<Chat | undefin
 
 
 }
+
 export async function getMessages(chatId:string){
   try {
     const messages = await prisma.message.findMany({
@@ -240,7 +241,7 @@ export async function shareChat(id: string):Promise<ServerActionResult<Chat>> {
 
 export async function saveChat(chat: Chat) {
   const session = await auth()
- 
+  
 
   if (session && session.user && session.user.id) {
       try {
@@ -252,8 +253,10 @@ export async function saveChat(chat: Chat) {
           userId:session.user.id
         }
       });
-
+      
       if(existingChat){
+        const oldMessages = (await getMessages(existingChat?.id))?.map(message=>message.content)
+        const newMessagesToAdd = chat.messages.filter(messageFromUi=>!oldMessages?.includes(messageFromUi.content))
 
         await prisma.chat.update({
           where:{
@@ -264,7 +267,7 @@ export async function saveChat(chat: Chat) {
           data:{
             messages: {
               //@ts-ignore
-              create: chat.messages.map((msg) => ({
+              create: newMessagesToAdd.map((msg) => ({
                 role: msg.role,
                 content: msg.content,
                 name: msg.name,

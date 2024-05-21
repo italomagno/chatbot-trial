@@ -23,7 +23,7 @@ import { z } from 'zod'
 import { EventsSkeleton } from '@/components/stocks/events-skeleton'
 import { Events } from '@/components/stocks/events'
 import { StocksSkeleton } from '@/components/stocks/stocks-skeleton'
-import { Stocks } from '@/components/stocks/stocks' 
+import { Stocks } from '@/components/stocks/stocks'
 import { StockSkeleton } from '@/components/stocks/stock-skeleton'
 import {
   formatNumber,
@@ -100,9 +100,8 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
         {
           id: nanoid,
           role: 'system',
-          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${
-            amount * price
-          }]`
+          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${amount * price
+            }]`
         }
       ]
     })
@@ -156,11 +155,13 @@ async function submitUserMessage(content: string) {
     
     Besides that, you can also chat with users and do some calculations if needed.`,
     messages: [
-      ...aiState.get().messages.map((message: any) => ({
-        role: message.role,
-        content: message.content,
-        name: message.name
-      }))
+      ...aiState.get().messages.map((message: any) => {
+        return {
+          role: message.role,
+          content: message.content,
+          name: message.name
+        };
+      })
     ],
     text: ({ content, done, delta }) => {
       if (!textStream) {
@@ -416,7 +417,7 @@ export const AI = createAI<AIState, UIState>({
 
     if (session && session.user) {
       const aiState = getAIState()
-
+      console.log("aistate novo : ", aiState)
       if (aiState) {
         const uiState = getUIStateFromAIState(aiState)
         return uiState

@@ -7,6 +7,8 @@ import { Chat } from '@/components/chat'
 import { AI } from '@/lib/chat/actions'
 import { Session } from '@/lib/types'
 import { Message } from 'ai'
+import { GoogleTranslate } from '@/components/GoogleTranslate'
+import { getPrefLangCookie } from '../../page'
 
 export interface ChatPageProps {
   params: {
@@ -45,27 +47,23 @@ export default async function ChatPage({ params }: ChatPageProps) {
   }
   const messages = await getMessages(chat.id)
 
-  const newMessages = messages!.map(message=>{
-    const newMessage: Message = {
-      content: message.content,
-      id: message.id,
-      role: message.role as "function" | "system" | "user" | "assistant" | "data" | "tool",
-      annotations: [],
-      createdAt : new Date(),
-
-    }
-    return newMessage
-  })
+  
 
 
   return (
-    <AI initialAIState={{ chatId: chat.id!, messages:newMessages }}>
+    
+     
+
+    
+    //@ts-ignore
+    <AI initialAIState={{ chatId: chat.id!, messages }}>
       <Chat
         id={chat.id}
         session={session}
         initialMessages={chat.messages}
         missingKeys={missingKeys}
-      />
+        />
     </AI>
+      
   )
 }
