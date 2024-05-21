@@ -2,11 +2,11 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient,Message } from "@prisma/client";
 import { auth } from '@/auth'
 import { ServerActionResult, type Chat } from '@/lib/types'
 import { idea } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import { Message } from 'ai';
+import { JsonValue } from '@prisma/client/runtime/library';
 
 
 
@@ -233,56 +233,75 @@ export async function shareChat(id: string):Promise<ServerActionResult<Chat>> {
   
 }
 
-//falta corrigir
+
+
+
+
+
 export async function saveChat(chat: Chat) {
   const session = await auth()
+ 
+
   if (session && session.user && session.user.id) {
       try {
-        const newMessages = chat.messages.map(message=>{
-          return {
-            role:String(message.role), 
-            content:message.content,
-            name: message.name as string
-          }
-        })
+       
           // Check if the chat already exists for the user
       const existingChat = await prisma.chat.findFirst({
-        where: {
-          AND: [
-            { id: chat.id },
-            { userId: session.user.id },
-          ],
-        },
+        where:{
+          id:chat.id,
+          userId:session.user.id
+        }
       });
 
-        if(existingChat){
-          await prisma.message.updateMany({
-            where:{
-              chatId:existingChat.id
+      if(existingChat){
+
+        await prisma.chat.update({
+          where:{
+            id:chat.id,
+            userId:session.user.id
+          },
+          //@ts-ignore
+          data:{
+            messages: {
+              //@ts-ignore
+              create: chat.messages.map((msg) => ({
+                role: msg.role,
+                content: msg.content,
+                name: msg.name,
+                tool_call_id: msg.tool_call_id,
+                function_call: msg.function_call,
+                data: msg.data,
+              })),
             },
-            data:newMessages
-          })
+          }
+        })
           
       }else{
           const createdChat = await prisma.chat.create({data:{
-            userId:session.user.id,
-            title:chat.title,
-            messages:{create:newMessages}
-          }
-          })
+            ...chat,
+            messages: {
+              //@ts-ignore
+              create: chat.messages.map((msg) => ({
+                role: msg.role,
+                content: msg.content,
+                name: msg.name,
+                tool_call_id: msg.tool_call_id,
+                function_call: msg.function_call,
+                data: msg.data,
+              })),
+            },
+          }})
           const path = `/chat/${createdChat.id}`
 
-          const chatUpdated = await prisma.chat.update({where:{id:createdChat.id,
+         await prisma.chat.update({where:{id:createdChat.id,
             userId:session.user.id
           },
           data:{
               path,  
           }})
-        }
-        
-
   
-      } catch (err) {
+      }
+    } catch (err) {
         console.error("error executing query:", err);
         return []
       } finally {

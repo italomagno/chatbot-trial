@@ -28,11 +28,19 @@ model Chat{
 }
 
 model Message {
-  id String @id @default(uuid()) @db.Uuid
-  role String  
-  content String
-  name String?
-  chatId String @db.Uuid 
-  chat Chat @relation(fields: [chatId],references: [id],onDelete: Cascade,onUpdate: Cascade)
+  id            String    @id @default(uuid()) @db.Uuid
+  role          String
+  content       String
+  name          String?
+  chatId        String    @db.Uuid
+  chat          Chat      @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tool_call_id  String?
+  createdAt     DateTime? @default(now())
+  ui            Json?
+  function_call Json?
+  data          Json?
+  tool_calls    Json?
+  annotations   Json?
 }
+
 
