@@ -6,9 +6,7 @@ import { Session } from '@/lib/types'
 import { getMissingKeys } from '@/app/actions'
 import { cookies } from 'next/headers'
 
-export const getPrefLangCookie = () => {
-  return cookies().get("googtrans")?.value ?? "pt";
-};
+
 
 export const metadata = {
   title: 'Next.js AI Chatbot'

@@ -7,6 +7,7 @@ import { auth } from '@/auth'
 import { ServerActionResult, type Chat } from '@/lib/types'
 import { idea } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { JsonValue } from '@prisma/client/runtime/library';
+import { cookies } from 'next/headers';
 
 
 
@@ -233,7 +234,9 @@ export async function shareChat(id: string):Promise<ServerActionResult<Chat>> {
 
   
 }
-
+export const getPrefLangCookie = () => {
+  return cookies().get("googtrans")?.value ?? "pt";
+};
 
 
 
