@@ -10,7 +10,6 @@ export default async function ChatLayout({ children }: ChatLayoutProps) {
   return (
 
       <div className="relative flex h-[calc(100vh_-_theme(spacing.16))] overflow-hidden">
-      <GoogleTranslate prefLangCookie={getPrefLangCookie()} />
       <SidebarDesktop />
       {children}
     </div>

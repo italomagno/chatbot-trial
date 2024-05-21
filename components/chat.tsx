@@ -12,8 +12,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Message } from '@/lib/chat/actions'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
-import { GoogleTranslate } from './GoogleTranslate'
-import { getPrefLangCookie } from '@/app/(chat)/page'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]

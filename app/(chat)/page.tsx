@@ -4,7 +4,6 @@ import { AI } from '@/lib/chat/actions'
 import { auth } from '@/auth'
 import { Session } from '@/lib/types'
 import { getMissingKeys } from '@/app/actions'
-import { GoogleTranslate } from '@/components/GoogleTranslate'
 import { cookies } from 'next/headers'
 
 export const getPrefLangCookie = () => {
@@ -23,11 +22,8 @@ export default async function IndexPage() {
  
 
   return (
-    <>
-      <GoogleTranslate prefLangCookie={getPrefLangCookie()}/>
     <AI initialAIState={{ chatId: id, messages: [] }}>
       <Chat id={id} session={session} missingKeys={missingKeys} />
     </AI>
-    </>
   )
 }

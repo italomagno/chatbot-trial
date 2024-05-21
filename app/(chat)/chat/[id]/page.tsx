@@ -6,9 +6,7 @@ import { getChat, getChats, getMessages, getMissingKeys } from '@/app/actions'
 import { Chat } from '@/components/chat'
 import { AI } from '@/lib/chat/actions'
 import { Session } from '@/lib/types'
-import { Message } from 'ai'
-import { GoogleTranslate } from '@/components/GoogleTranslate'
-import { getPrefLangCookie } from '../../page'
+
 
 export interface ChatPageProps {
   params: {
