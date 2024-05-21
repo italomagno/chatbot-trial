@@ -16,7 +16,7 @@ import { SidebarToggle } from './sidebar-toggle'
 import { ChatHistory } from './chat-history'
 import { Session } from '@/lib/types'
 import { GoogleTranslate } from './GoogleTranslate'
-import { getPrefLangCookie } from '@/app/(chat)/page'
+import { getPrefLangCookie } from '@/app/actions'
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
@@ -58,7 +58,7 @@ export function Header() {
         </React.Suspense>
       </div>
       <div className="flex items-center justify-end space-x-2">
-        
+
         <GoogleTranslate prefLangCookie={getPrefLangCookie()}/>
         <a
           target="_blank"

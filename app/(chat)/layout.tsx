@@ -1,6 +1,5 @@
 import { GoogleTranslate } from '@/components/GoogleTranslate'
 import { SidebarDesktop } from '@/components/sidebar-desktop'
-import { getPrefLangCookie } from './page'
 
 interface ChatLayoutProps {
   children: React.ReactNode
