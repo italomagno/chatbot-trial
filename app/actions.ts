@@ -235,6 +235,7 @@ export async function shareChat(id: string):Promise<ServerActionResult<Chat>> {
   
 }
 export const getPrefLangCookie = () => {
+'use server'
   const preferLeguage = cookies().get("googtrans")
   if(preferLeguage){
     return preferLeguage.value
@@ -247,7 +248,8 @@ export const getPrefLangCookie = () => {
 
 };
 export const setPrefLangCookie = (value:string) => {
- return cookies().set("googtrans",value)
+'use server'
+ cookies().set("googtrans",value)
 };
 
 
