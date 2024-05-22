@@ -35,9 +35,10 @@ export const viewport = {
 interface RootLayoutProps {
   children: React.ReactNode
 }
+const lang =  getPrefLangCookie()
+
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-  const lang =  getPrefLangCookie()
   return (
     <html lang={lang} suppressHydrationWarning>
       <body
