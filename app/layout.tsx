@@ -35,12 +35,11 @@ export const viewport = {
 interface RootLayoutProps {
   children: React.ReactNode
 }
-const lang =  getPrefLangCookie()
 
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang={lang} suppressHydrationWarning>
+    <html lang="pt" suppressHydrationWarning>
       <body
         className={cn(
           'font-sans antialiased',
@@ -57,7 +56,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         >
           <div className="flex flex-col min-h-screen">
             <Header 
-            prefLangCookie={lang}
             />
             <main className="flex flex-col flex-1 bg-muted/50">{children}</main>
           </div>
