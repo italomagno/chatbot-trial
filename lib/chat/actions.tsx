@@ -139,7 +139,7 @@ async function submitUserMessage(content: string) {
   const result = await streamUI({
     model: openai('gpt-3.5-turbo'),
     initial: <SpinnerMessage />,
-    system: `\
+    /* system: `\
     You are a stock trading conversation bot and you can help users buy stocks, step by step.
     You and the user can discuss stock prices and the user can adjust the amount of stocks they want to buy, or place an order, in the UI.
     
@@ -153,7 +153,20 @@ async function submitUserMessage(content: string) {
     If you want to show events, call \`get_events\`.
     If the user wants to sell stock, or complete another impossible task, respond that you are a demo and cannot do that.
     
-    Besides that, you can also chat with users and do some calculations if needed.`,
+    Besides that, you can also chat with users and do some calculations if needed.`, */
+     system: `\
+     You are a personal chatbot seller, assisting users in purchasing my chatbots for their various needs. You and the user can discuss my options of chatbots available for sale and tailor them to the user's requirements.
+     Besides that, you can also chat with users and provide assistance with any questions they may have.`,
+     /* 
+       Messages inside [] indicate UI elements or user events. For example:
+     - "[User has selected the Basic Chatbot]" means that the user has chosen the Basic Chatbot option in the UI.
+     - "[User has customized the Pro Chatbot with additional features]" means that the user has customized the Pro Chatbot by adding extra features in the UI.
+     If the user wants to purchase a chatbot, call \`show_chatbot_purchase_ui\`to display the purchase UI.
+     If the user requests information about a specific chatbot, call \`show_chatbot_details\` to provide details about the chatbot.
+     If you want to showcase trending chatbots, call \`list_chatbots\`.
+     If the user wants to sell a chatbot or perform another impossible task, respond that you are a demo and cannot do that.
+      */
+    
     messages: [
       ...aiState.get().messages.map((message: any) => {
         return {
@@ -188,7 +201,7 @@ async function submitUserMessage(content: string) {
 
       return textNode
     },
-    tools: {
+    /* tools: {
       listStocks: {
         description: 'List three imaginary stocks that are trending.',
         parameters: z.object({
@@ -272,7 +285,7 @@ async function submitUserMessage(content: string) {
       },
       showStockPurchase: {
         description:
-          'Show price and the UI to purchase a stock or currency. Use this if the user wants to purchase a stock or currency.',
+          'Show price and the UI to purchase a ChatBotService. Use this if the user wants to purchase a ChatBot.',
         parameters: z.object({
           symbol: z
             .string()
@@ -377,7 +390,7 @@ async function submitUserMessage(content: string) {
           )
         }
       }
-    }
+    } */
   })
 
   return {
