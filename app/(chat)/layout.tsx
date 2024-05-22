@@ -1,6 +1,5 @@
 
 import { SidebarDesktop } from '@/components/sidebar-desktop'
-import Script from 'next/script'
 
 interface ChatLayoutProps {
   children: React.ReactNode

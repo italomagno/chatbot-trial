@@ -7,16 +7,17 @@ import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
+import { getPrefLangCookie } from './actions'
 
 export const metadata = {
   metadataBase: process.env.VERCEL_URL
     ? new URL(`https://${process.env.VERCEL_URL}`)
     : undefined,
   title: {
-    default: 'Next.js AI Chatbot',
-    template: `%s - Next.js AI Chatbot`
+    default: 'Oxe|Dev AI Chatbot',
+    template: `%s - Oxe|Dev AI Chatbot`
   },
-  description: 'An AI-powered chatbot template built with Next.js and Vercel.',
+  description: 'An AI-powered Chatbot powered by Oxe|Dev - Italo Magno.',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
@@ -35,9 +36,10 @@ interface RootLayoutProps {
   children: React.ReactNode
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const lang =  getPrefLangCookie()
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <body
         className={cn(
           'font-sans antialiased',
@@ -53,7 +55,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
           disableTransitionOnChange
         >
           <div className="flex flex-col min-h-screen">
-            <Header />
+            <Header 
+            prefLangCookie={lang}
+            />
             <main className="flex flex-col flex-1 bg-muted/50">{children}</main>
           </div>
           <TailwindIndicator />

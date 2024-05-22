@@ -36,24 +36,24 @@ export function ChatPanel({
 
   const exampleMessages = [
     {
-      heading: 'What are the',
-      subheading: 'trending memecoins today?',
-      message: `What are the trending memecoins today?`
+      heading: 'What is the price of the',
+      subheading: 'ChatBot?',
+      message: `What is the price of the ChatBot?`
     },
     {
-      heading: 'What is the price of',
-      subheading: '$DOGE right now?',
-      message: 'What is the price of $DOGE right now?'
+      heading: 'How can I use',
+      subheading: 'the ChatBot?',
+      message: 'How can I use the ChatBot??'
     },
     {
-      heading: 'I would like to buy',
-      subheading: '42 $DOGE',
-      message: `I would like to buy 42 $DOGE`
+      heading: 'I Would like to purchase',
+      subheading: 'my ChatBot',
+      message: `I would like to purchase my ChatBot`
     },
     {
-      heading: 'What are some',
-      subheading: `recent events about $DOGE?`,
-      message: `What are some recent events about $DOGE?`
+      heading: 'Which are the',
+      subheading: `actions that can I do using ChatBot?`,
+      message: `What are some actions that can I do using ChatBot?`
     }
   ]
 

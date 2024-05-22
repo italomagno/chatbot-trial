@@ -9,18 +9,18 @@ export function EmptyScreen() {
     <div className="mx-auto max-w-2xl px-4">
       <div className="flex flex-col gap-2 rounded-lg border bg-background p-8">
         <h1 className="text-lg font-semibold">
-          Welcome to Next.js AI Chatbot!
+          Welcome to Oxe Dev AI Chatbot!
         </h1>
         <p className="leading-normal text-muted-foreground">
-          This is an open source AI chatbot app template built with{' '}
-          <ExternalLink href="https://nextjs.org">Next.js</ExternalLink>, the{' '}
-          <ExternalLink href="https://sdk.vercel.ai">
+          This is an app developed by Italo Magno using{' '}
+          <ExternalLink  href="https://nextjs.org">Next.js</ExternalLink>{/* , the{' '} */}
+          {/* <ExternalLink href="https://sdk.vercel.ai">
             Vercel AI SDK
           </ExternalLink>
           , and{' '}
           <ExternalLink href="https://vercel.com/storage/kv">
             Vercel KV
-          </ExternalLink>
+          </ExternalLink> */}
           .
         </p>
         <p className="leading-normal text-muted-foreground">
@@ -31,6 +31,13 @@ export function EmptyScreen() {
           to combine text with generative UI as output of the LLM. The UI state
           is synced through the SDK so the model is aware of your interactions
           as they happen.
+        </p>
+        <h1 className="text-lg font-semibold">
+         Other Works of Italo!
+        </h1>
+        <p className="leading-normal text-muted-foreground">
+          This is my portfolio {' '}👉
+          <ExternalLink  href="https://www.oxedev.com.br">OxeDev</ExternalLink>
         </p>
       </div>
     </div>

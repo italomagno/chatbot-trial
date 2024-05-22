@@ -82,6 +82,9 @@ body {
 iframe.skiptranslate {
   display: none !important;
 }
+iframe{
+  display: none !important;
+}
 
  iframe.goog-gt-tt {
   display: none !important;
