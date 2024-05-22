@@ -75,5 +75,14 @@
     @apply bg-background text-foreground;
   }
 }
-body { position: "static"; top: "0px !important"; }
-iframe.skiptranslate { display: "none !important"; }
+body {
+  position: relative !important;
+  top: 0px !important;
+}
+iframe.skiptranslate {
+  display: none !important;
+}
+
+ iframe.goog-gt-tt {
+  display: none !important;
+}

@@ -417,7 +417,6 @@ export const AI = createAI<AIState, UIState>({
 
     if (session && session.user) {
       const aiState = getAIState()
-      console.log("aistate novo : ", aiState)
       if (aiState) {
         const uiState = getUIStateFromAIState(aiState)
         return uiState

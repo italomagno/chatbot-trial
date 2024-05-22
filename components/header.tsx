@@ -16,7 +16,7 @@ import { SidebarToggle } from './sidebar-toggle'
 import { ChatHistory } from './chat-history'
 import { Session } from '@/lib/types'
 import { GoogleTranslate } from './GoogleTranslate'
-import { getPrefLangCookie } from '@/app/actions'
+import { getPrefLangCookie, setPrefLangCookie } from '@/app/actions'
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
@@ -50,6 +50,11 @@ async function UserOrLogin() {
 }
 
 export function Header() {
+async function handlePrefLangCookie(lang:string){
+  "use server"
+  setPrefLangCookie(lang)
+}
+
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 bg-gradient-to-b from-background/10 via-background/50 to-background/80 backdrop-blur-xl">
       <div className="flex items-center">
@@ -59,7 +64,7 @@ export function Header() {
       </div>
       <div className="flex items-center justify-end space-x-2">
 
-        <GoogleTranslate prefLangCookie={getPrefLangCookie()}/>
+        <GoogleTranslate prefLangCookie={getPrefLangCookie()} HandlePrefLangCookie={handlePrefLangCookie}/>
         <a
           target="_blank"
           href="https://github.com/vercel/nextjs-ai-chatbot/"

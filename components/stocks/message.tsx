@@ -33,7 +33,6 @@ export function BotMessage({
   className?: string
 }) {
   const text = useStreamableText(content)
-  console.log("aqui foi o texto: ", text)
 
   return (
     <div className={cn('group relative flex items-start md:-ml-12', className)}>
