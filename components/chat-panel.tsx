@@ -36,24 +36,24 @@ export function ChatPanel({
 
   const exampleMessages = [
     {
-      heading: 'What is the price of the',
-      subheading: 'ChatBot?',
-      message: `What is the price of the ChatBot?`
+      heading: 'What is the best way to use',
+      subheading: 'Social Media Assistant?',
+      message: `What is the best way to use Social Media Assistant?`
     },
     {
       heading: 'How can I use',
-      subheading: 'the ChatBot?',
-      message: 'How can I use the ChatBot??'
+      subheading: 'the Social Media assistant?',
+      message: 'How can I use you to create content to my social media??'
     },
     {
-      heading: 'I Would like to purchase',
-      subheading: 'my ChatBot',
-      message: `I would like to purchase my ChatBot`
+      heading: 'Help-me to create my first',
+      subheading: 'post in LinkedIn',
+      message: `Help-me to create my first post in LinkedIn`
     },
     {
       heading: 'Which are the',
-      subheading: `actions that can I do using ChatBot?`,
-      message: `What are some actions that can I do using ChatBot?`
+      subheading: `actions that can I do using Social Media Assistant?`,
+      message: `What are some actions that can I do using Social Media Assistant?`
     }
   ]
 

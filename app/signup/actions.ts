@@ -25,6 +25,7 @@ export async function createUser(
       password: hashedPassword,
       salt
     }
+
     try{
     await prisma.user.create({data:user})
     return {
@@ -33,6 +34,7 @@ export async function createUser(
     }
 
     }catch(err) {
+      console.log(err)
       return {
         type: 'error',
         resultCode: ResultCode.UnknownError
@@ -56,7 +58,6 @@ export async function signup(
 ): Promise<Result | undefined> {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
-
   const parsedCredentials = z
     .object({
       email: z.string().email(),
@@ -66,6 +67,7 @@ export async function signup(
       email,
       password
     })
+
 
   if (parsedCredentials.success) {
     const salt = crypto.randomUUID()

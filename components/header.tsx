@@ -5,6 +5,7 @@ import { auth } from '@/auth'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
   IconGitHub,
+  IconItaloMagnoWhite,
   IconNextChat,
   IconSeparator,
 } from '@/components/ui/icons'
@@ -29,8 +30,8 @@ async function UserOrLogin() {
         </>
       ) : (
         <Link href="/new" rel="nofollow">
-          <IconNextChat className="size-6 mr-2 dark:hidden" inverted />
-          <IconNextChat className="hidden size-6 mr-2 dark:block" />
+          <IconItaloMagnoWhite className="size-6 mr-2 dark:hidden  " height={24} width={24} />
+          <IconItaloMagnoWhite className="hidden size-6 mr-2 dark:block" height={24} width={24} />
         </Link>
       )}
       <div className="flex items-center">
@@ -48,14 +49,14 @@ async function UserOrLogin() {
 }
 
 type HeaderProps = {
- 
+
 }
-export  function Header({}:HeaderProps) {
-async function handlePrefLangCookie(lang:string){
-  "use server"
-  setPrefLangCookie(lang)
-}
-const lang = getPrefLangCookie()
+export function Header({ }: HeaderProps) {
+  async function handlePrefLangCookie(lang: string) {
+    "use server"
+    setPrefLangCookie(lang)
+  }
+  const lang = getPrefLangCookie()
 
 
   return (
@@ -67,8 +68,8 @@ const lang = getPrefLangCookie()
       </div>
       <div className="flex items-center justify-end space-x-2">
 
-        <GoogleTranslate prefLangCookie={lang} HandlePrefLangCookie={handlePrefLangCookie}/>
-       {/*  <a
+        <GoogleTranslate prefLangCookie={lang} HandlePrefLangCookie={handlePrefLangCookie} />
+        {/*  <a
           target="_blank"
           href="https://github.com/vercel/nextjs-ai-chatbot/"
           rel="noopener noreferrer"
@@ -77,7 +78,7 @@ const lang = getPrefLangCookie()
           <IconGitHub />
           <span className="hidden ml-2 md:flex">GitHub</span>
         </a> */}
-       {/*  <a
+        {/*  <a
           href="https://vercel.com/templates/Next.js/nextjs-ai-chatbot"
           target="_blank"
           className={cn(buttonVariants())}

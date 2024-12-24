@@ -8,7 +8,7 @@ import { getMissingKeys } from '@/app/actions'
 
 
 export const metadata = {
-  title: 'Next.js AI Chatbot'
+  title: 'Social Media Assistant',
 }
 
 export default async function IndexPage() {
