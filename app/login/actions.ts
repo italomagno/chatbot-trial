@@ -1,12 +1,10 @@
 'use server'
 
 import { signIn } from '@/auth'
-import { User } from '@/lib/types'
 import { AuthError } from 'next-auth'
 import { z } from 'zod'
 import { ResultCode } from '@/lib/utils'
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient();
+import prisma from "@/lib/db";
 
 
 export async function getUser(email: string) {

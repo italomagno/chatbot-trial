@@ -5,8 +5,7 @@ import { ResultCode, getStringFromBuffer } from '@/lib/utils'
 import { z } from 'zod'
 import { getUser } from '../login/actions'
 import { AuthError } from 'next-auth'
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient();
+import prisma from "@/lib/db"
 
 export async function createUser(
   email: string,

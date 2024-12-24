@@ -2,16 +2,14 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { Prisma, PrismaClient,Message } from "@prisma/client";
+
+import prisma from '@/lib/db'
 import { auth } from '@/auth'
 import { ServerActionResult, type Chat } from '@/lib/types'
 import { idea, xcode } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { JsonValue } from '@prisma/client/runtime/library';
 import { cookies } from 'next/headers';
 
-
-
-const prisma = new PrismaClient();
 
 
 export async function getChats(userId?: string | null):Promise<Chat[] | []> {

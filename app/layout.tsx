@@ -1,5 +1,10 @@
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
+import { Roboto } from 'next/font/google'
+ 
+const roboto = Roboto({
+  weight: '400',
+  subsets: ['latin'],
+})
+
 
 import '@/app/globals.css'
 import { cn } from '@/lib/utils'
@@ -7,7 +12,6 @@ import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
-import { getPrefLangCookie } from './actions'
 
 export const metadata = {
   metadataBase: process.env.VERCEL_URL
@@ -43,8 +47,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <body
         className={cn(
           'font-sans antialiased',
-          GeistSans.variable,
-          GeistMono.variable
+          roboto.className,
         )}
       >
         <Toaster position="top-center" />
