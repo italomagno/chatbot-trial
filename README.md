@@ -32,17 +32,24 @@ This project lays the foundation for future ideas, including:
 <div style="display: flex; justify-content: center; align-items: center;">
 
 <div>
+<div>
   Light Theme
+</div>
   <img src="./public/light-theme.png" alt="Light Theme" style="margin-top: 5px; margin-right: 10px; height: 250px; width:200px;">
 </div>
 
 <div >
-    Dark Theme
+    <div>
+  Dark Theme
+</div>
 
   <img src="./public/dark-theme.png" alt="Dark Theme" style="margin-top: 5px; height: 250px; width:200px;">
 </div>
-
 </div>
+
+<br/>
+
+> **Tip:** Click on the image to expand.
 
 ## Features
 
