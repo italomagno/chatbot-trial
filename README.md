@@ -27,6 +27,23 @@ This project lays the foundation for future ideas, including:
 </p>
 <br/>
 
+## Project Images
+
+<div style="display: flex; justify-content: center; align-items: center;">
+
+<div>
+  Light Theme
+  <img src="./public/light-theme.png" alt="Light Theme" style="margin-top: 5px; margin-right: 10px; height: 250px; width:200px;">
+</div>
+
+<div >
+    Dark Theme
+
+  <img src="./public/dark-theme.png" alt="Dark Theme" style="margin-top: 5px; height: 250px; width:200px;">
+</div>
+
+</div>
+
 ## Features
 
 - [Next.js](https://nextjs.org) App Router
