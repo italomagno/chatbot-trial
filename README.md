@@ -1,7 +1,18 @@
-<a href="https://chat.vercel.ai/">
-  <img alt="Next.js 14 and App Router-ready AI chatbot." src="https://chat.vercel.ai/opengraph-image.png">
-  <h1 align="center">Next.js AI Chatbot</h1>
-</a>
+# Italo Magno Social Media Assistant
+
+
+<img src="./public//apple-touch-icon.png" alt="Italo Magno Image">
+
+> This project serves as a showcase of my ability to take existing projects and adapt them by implementing unique features and applying my personal style. For this particular project, I introduced a Google Translate feature, enabling users to seamlessly switch between languages for improved accessibility. Additionally, I integrated a custom training model specifically designed to assist in generating high-quality content for social media platforms. This implementation highlights my expertise in combining functionality with user-centric design, offering practical solutions for real-world applications.
+
+### Next steps
+
+This project lays the foundation for future ideas, including:
+
+- [x] Creating a proprietary AI chatbot – Developing an AI-powered chatbot tailored to specific user needs.
+- [x] Building WhatsApp integrations – Expanding functionality by seamlessly integrating with WhatsApp for enhanced communication.
+- [x] Designing user-friendly chat interfaces – Focusing on intuitive and engaging conversational experiences for users.
+
 
 <p align="center">
   An open-source AI chatbot app template built with Next.js, the Vercel AI SDK, OpenAI, and Vercel KV.
@@ -12,7 +23,7 @@
   <a href="#model-providers"><strong>Model Providers</strong></a> ·
   <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
   <a href="#running-locally"><strong>Running locally</strong></a> ·
-  <a href="#authors"><strong>Authors</strong></a>
+  <a href="#key-accomplishments"><strong>Key Accomplishments</strong></a>
 </p>
 <br/>
 
@@ -31,19 +42,7 @@
 
 ## Model Providers
 
-This template ships with OpenAI `gpt-3.5-turbo` as the default. However, thanks to the [Vercel AI SDK](https://sdk.vercel.ai/docs), you can switch LLM providers to [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), [Hugging Face](https://huggingface.co), or using [LangChain](https://js.langchain.com) with just a few lines of code.
-
-<!-- ## Deploy Your Own -->
-
-<!-- You can deploy your own version of the Next.js AI Chatbot to Vercel with one click:
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-title=Next.js+Chat&demo-description=A+full-featured%2C+hackable+Next.js+AI+chatbot+built+by+Vercel+Labs&demo-url=https%3A%2F%2Fchat.vercel.ai%2F&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4aVPvWuTmBvzM5cEdRdqeW%2F4234f9baf160f68ffb385a43c3527645%2FCleanShot_2023-06-16_at_17.09.21.png&project-name=Next.js+Chat&repository-name=nextjs-chat&repository-url=https%3A%2F%2Fgithub.com%2Fvercel-labs%2Fai-chatbot&from=templates&skippable-integrations=1&env=OPENAI_API_KEY%2CAUTH_SECRET&envDescription=How+to+get+these+env+vars&envLink=https%3A%2F%2Fgithub.com%2Fvercel-labs%2Fai-chatbot%2Fblob%2Fmain%2F.env.example&teamCreateStatus=hidden&stores=[{"type":"kv"}]) -->
-
-<!-- ## Creating a KV Database Instance
-
-Follow the steps outlined in the [quick start guide](https://vercel.com/docs/storage/vercel-kv/quickstart#create-a-kv-database) provided by Vercel. This guide will assist you in creating and configuring your KV database instance on Vercel, enabling your application to interact with it.
-
-Remember to update your environment variables (`KV_URL`, `KV_REST_API_URL`, `KV_REST_API_TOKEN`, `KV_REST_API_READ_ONLY_TOKEN`) in the `.env` file with the appropriate credentials provided during the KV database setup. -->
+This template ships with OpenAI `gpt-3.5-turbo` as the default.
 
 ## Running locally
 
@@ -62,10 +61,9 @@ pnpm dev
 
 Your app template should now be running on [localhost:3000](http://localhost:3000/).
 
-## Authors
+## Key Accomplishments
+- Trained a model for social media prompts – Developed and integrated a custom model to generate effective content prompts for social media platforms.
+- Implemented my own database using CockroachDB – Designed and connected a robust CockroachDB database to enhance the project's scalability and performance.
+- Established a Prisma ORM connection – Streamlined data management by creating an efficient Prisma ORM setup.
+- Customized branding and UI – Designed and applied a unique logo and styles using Tailwind CSS and ShadCN UI, ensuring a cohesive and visually appealing interface.
 
-This library is created by [Vercel](https://vercel.com) and [Next.js](https://nextjs.org) team members, with contributions from:
-
-- Jared Palmer ([@jaredpalmer](https://twitter.com/jaredpalmer)) - [Vercel](https://vercel.com)
-- Shu Ding ([@shuding\_](https://twitter.com/shuding_)) - [Vercel](https://vercel.com)
-- shadcn ([@shadcn](https://twitter.com/shadcn)) - [Vercel](https://vercel.com)
